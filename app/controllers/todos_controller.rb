@@ -28,6 +28,7 @@ class TodosController < ApplicationController
         format.turbo_stream
         format.html { redirect_to todo_url(@todo), notice: "Todo was successfully created." }
       else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("#{helpers.dom_id(@todo)}_form", partial: "form", locals: { todo: @todo }) }
         format.html { render :new, status: :unprocessable_entity }
       end
     end
@@ -35,16 +36,18 @@ class TodosController < ApplicationController
 
   # PATCH/PUT /todos/1 or /todos/1.json
   def update
-    respond_to do |format|
-      if @todo.update(todo_params)
-        format.html { redirect_to todo_url(@todo), notice: "Todo was successfully updated." }
-        format.json { render :show, status: :ok, location: @todo }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @todo.errors, status: :unprocessable_entity }
-      end
+  respond_to do |format|
+    if @todo.update(todo_params)
+      format.turbo_stream
+      format.html { redirect_to todo_url(@todo), notice: "Todo was successfully updated." }
+      format.json { render :show, status: :ok, location: @todo }
+    else
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("#{helpers.dom_id(@todo)}_form", partial: "form", locals: { todo: @todo }) }
+      format.html { render :edit, status: :unprocessable_entity }
+      format.json { render json: @todo.errors, status: :unprocessable_entity }
     end
   end
+end
 
   # DELETE /todos/1 or /todos/1.json
   def destroy
