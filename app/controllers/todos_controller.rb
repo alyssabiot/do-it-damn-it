@@ -2,7 +2,7 @@ class TodosController < ApplicationController
   before_action :set_todo, only: %i[ show edit update destroy change_status]
 
   def index
-    @todos = Todo.where(status: params[:status].presence || 'incomplete')
+    @todos = current_user.todos.where(status: params[:status].presence || 'incomplete')
   end
 
   def show
@@ -17,6 +17,7 @@ class TodosController < ApplicationController
 
   def create
     @todo = Todo.new(todo_params)
+    @todo.user = current_user
 
     respond_to do |format|
       if @todo.save
