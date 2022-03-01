@@ -13,12 +13,12 @@
 
   <body>
     <% if notice %>
-      <div class="bg-teal-100 border-l-4 border-teal-500 text-teal-700 p-4" role="notice"
+      <div class="info" role="notice"
         <p><%= notice %></p>
       </div>
     <% end %>
     <% if alert %>
-      <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
+      <div class="error" role="alert">
         <p><%= alert %></p>
       </div>
     <% end %>

@@ -10,30 +10,30 @@
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div>
-        <%= f.label :email, class: "block mb-2 text-gray-500" %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full p-2 mb-6 text-gray-700 border-b-2 border-gray-500 outline-none focus:bg-gray-100" %>
+        <%= f.label :email, class: "input-label" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input" %>
       </div>
 
       <div>
-        <%= f.label :password, class: "block mb-2 text-gray-500" %>
+        <%= f.label :password, class: "input-label" %>
         <% if @minimum_password_length %>
-        <span class="block mb-2 text-gray-500"><em>(<%= @minimum_password_length %> characters minimum)</em></span>
+        <span class="input-label"><em>(<%= @minimum_password_length %> characters minimum)</em></span>
         <% end %>
-        <%= f.password_field :password, autocomplete: "new-password", class: "w-full p-2 mb-6 text-gray-700 border-b-2 border-gray-500 outline-none focus:bg-gray-100" %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "input" %>
       </div>
 
       <div class="field">
-        <%= f.label :password_confirmation, class: "block mb-2 text-gray-500" %>
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full p-2 mb-6 text-gray-700 border-b-2 border-gray-500 outline-none focus:bg-gray-100" %>
+        <%= f.label :password_confirmation, class: "input-label" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input" %>
       </div>
 
       <div>
-        <%= f.submit "Sign up", class: "w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 mb-6 rounded" %>
+        <%= f.submit "Sign up", class: "submit" %>
       </div>
     <% end %>
 
     <footer>
-      <%= link_to "Log in", new_session_path(resource_name), class: "text-gray-700 hover:text-indigo-700 text-sm float-left" %>
+      <%= link_to "Log in", new_session_path(resource_name), class: "link-small float-left" %>
     </footer>
   </div>
 </div>
