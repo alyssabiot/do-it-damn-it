@@ -1,10 +1,10 @@
-<%= form_with(model: todo, id: "#{dom_id(todo)}_form") do |form| %>
-  <% if todo.errors.any? %>
+<%= form_with(model: category, id: "#{dom_id(category)}_form") do |form| %>
+  <% if category.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(todo.errors.count, "error") %> prohibited this todo from being saved:</h2>
+      <h2><%= pluralize(category.errors.count, "error") %> prohibited this category from being saved:</h2>
 
       <ul>
-        <% todo.errors.each do |error| %>
+        <% category.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -12,7 +12,7 @@
   <% end %>
   <div class="flex items-stretch flex-grow">
     <%= form.label :name, class: "sr-only" %>
-    <%= form.text_field :name, class: "block w-full rounded-none rounded-l-md sm:text-sm border-gray-300", placeholder: "Add a new todo" %>
+    <%= form.text_field :name, class: "block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 text-gray-700", placeholder: "Add a new category" %>
     <%= form.submit "+", class: "-ml-px relative px-4 py-2 border border-blue-600 text-sm font-medium rounded-r-md text-white bg-blue-600 hover:bg-blue-700" %>
   </div>
 <% end %>

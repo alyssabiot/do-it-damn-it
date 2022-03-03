@@ -25,15 +25,17 @@
         <span class="text-2xl font-extrabold whitespace-nowrap truncate">Do it damn it</span>
       </a>
 
+      <div class="py-2 px-4">
+        <%= render "categories/form", category: Category.new %>
+      </div>
       <nav data-dev-hint="main navigation">
-        <%= link_to "Incomplete",
-          todos_path(status: "incomplete"),
-          class: "sidebar-item"
+        <%= link_to "Uncategorized",
+        todos_path(),
+        class: "sidebar-item"
         %>
-        <%= link_to "Complete",
-          todos_path(status: "complete"),
-          class: "sidebar-item"
-        %>
+        <div id="categories">
+          <%= render @categories %>
+        </div>
       </nav>
     </div>
     <div>
@@ -49,24 +51,15 @@
 
   <main id="content" class="flex-1 p-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
-      <div class="px-4 py-6 sm:px-0">
-        <div class="border-4 border-dashed border-gray-200 rounded-lg h-96">
-          <h2 class="text-2xl text-gray-900">
-            Your todos
-          </h2>
-          <!-- old classes : block max-w-2xl w-full bg-gray-100 py-8 px-4 border border-gray-200 rounded shadow-sm -->
-          <%= turbo_frame_tag "todos-container" do %>
-            <% unless params[:status] == "complete" %>
-              <div class="py-2 px-4">
-                <%= render "form", todo: Todo.new %>
-              </div>
-            <% end %>
-            <ul id="todos">
-              <%= render @todos %>
-            </ul>
-          <% end %>
-        </div>
+      <h2 class="text-2xl text-gray-900">
+        <%= @title %>
+      </h2>
+      <div class="py-2 px-4">
+        <%= render "form", todo: Todo.new %>
       </div>
+      <ul id="todos">
+        <%= render @todos %>
+      </ul>
     </div>
   </main>
 </div>

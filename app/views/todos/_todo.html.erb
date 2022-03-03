@@ -4,15 +4,36 @@
       <%= link_to todo.name, edit_todo_path(todo), class: todo.complete? ? 'line-through' : '' %>
 
       <div class="flex justify-end space-x-3">
+        <div class="dropdown relative">
+          <button class= "bg-indigo-600 px-4 py-2 rounded hover:bg-indigo-700">
+            <span class="sr-only">Choose category</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" title="Choose category">
+              <path d="M0 0h24v24H0V0z" fill="none"/><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 4h2v5l-1-.75L9 9V4zm9 16H6V4h1v9l3-2.25L13 13V4h5v16z"/>
+            </svg>
+          </button>
+          <ul class="dropdown-menu absolute hidden">
+            <% @categories.each do |category| %>
+              <% if category.id != todo.category&.id %>
+                <li class="dropdown-item">
+                  <%= button_to category.name,
+                    update_category_todo_path(todo, todo: { category_id: category.id }),
+                    method: :patch
+                  %>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+
         <% if todo.complete? %>
-          <%= button_to change_status_todo_path(todo, todo: { status: 'incomplete' }), class: "bg-green-600 px-4 py-2 rounded hover:bg-green-700", method: :patch do %>
+          <%= button_to todo_path(todo, todo: { status: 'incomplete' }), class: "bg-green-600 px-4 py-2 rounded hover:bg-green-700", method: :patch do %>
             <span class="sr-only">Mark as incomplete</span>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
           <% end %>
         <% else %>
-          <%= button_to change_status_todo_path(todo, todo: { status: 'complete' }), class: "bg-gray-400 px-4 py-2 rounded hover:bg-green-700", method: :patch do %>
+          <%= button_to todo_path(todo, todo: { status: 'complete' }), class: "bg-gray-400 px-4 py-2 rounded hover:bg-green-700", method: :patch do %>
             <span class="sr-only">Mark as complete</span>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />

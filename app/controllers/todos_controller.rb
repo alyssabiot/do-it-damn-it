@@ -1,8 +1,15 @@
 class TodosController < ApplicationController
-  before_action :set_todo, only: %i[ show edit update destroy change_status]
+  before_action :set_todo, only: %i[ show edit update destroy update_category]
+  before_action :set_categories
 
   def index
-    @todos = current_user.todos.where(status: params[:status].presence || 'incomplete')
+    if params[:category_id].present?
+      @todos = current_user.todos.where(category_id: params[:category_id]).order(created_at: :desc)
+      @title = Category.find(params[:category_id]).name
+    else
+      @todos = current_user.todos.where(category_id: nil).order(status: :asc, created_at: :desc)
+      @title = "Uncategorized"
+    end
   end
 
   def show
@@ -18,7 +25,6 @@ class TodosController < ApplicationController
   def create
     @todo = Todo.new(todo_params)
     @todo.user = current_user
-
     respond_to do |format|
       if @todo.save
         format.turbo_stream
@@ -54,11 +60,12 @@ end
     end
   end
 
-  def change_status
-    @todo.update(status: todo_params[:status])
+  def update_category
+    @todo.update(category_id: todo_params[:category_id])
     respond_to do |format|
       format.turbo_stream { render turbo_stream: turbo_stream.remove("#{helpers.dom_id(@todo)}_container") }
-      format.html { redirect_to todos_path, notice: "Updated todo status." }
+      format.html { redirect_to todo_url(@todo), notice: "Todo was successfully updated." }
+      format.json { render :show, status: :ok, location: @todo }
     end
   end
 
@@ -67,7 +74,11 @@ end
       @todo = Todo.find(params[:id])
     end
 
+    def set_categories
+      @categories = current_user.categories.all.order(created_at: :desc)
+    end
+
     def todo_params
-      params.require(:todo).permit(:name, :status)
+      params.require(:todo).permit(:name, :status, :category_id)
     end
 end
